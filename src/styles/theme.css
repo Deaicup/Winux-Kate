@@ -1,0 +1,258 @@
+:root {
+  --bg: #02040a;
+  --bg2: #050a18;
+  --panel: rgba(10, 18, 40, 0.72);
+  --panel-border: rgba(0, 229, 255, 0.35);
+  --accent: #00e5ff;
+  --accent2: #39ff14;
+  --accent-dim: rgba(0, 229, 255, 0.18);
+  --text: #cfeffb;
+  --text-dim: #6f8aa8;
+  --warn: #ffcc00;
+  --danger: #ff4d6d;
+  --mono: "JetBrains Mono", "Fira Code", "Cascadia Code", "Consolas", monospace;
+}
+
+/* ---- shared panel (eDEX-UI flavored) ---- */
+.panel {
+  position: relative;
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.12) inset, 0 0 8px rgba(0, 229, 255, 0.18);
+  backdrop-filter: blur(2px);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+.panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 229, 255, 0.03) 0px,
+    rgba(0, 229, 255, 0.03) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: screen;
+}
+
+/* corner ticks: bright accents hugging the panel corners */
+.panel::after,
+.missing-card::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  pointer-events: none;
+  opacity: 0.75;
+  background:
+    linear-gradient(var(--accent), var(--accent)) left top / 10px 1px,
+    linear-gradient(var(--accent), var(--accent)) left top / 1px 10px,
+    linear-gradient(var(--accent), var(--accent)) right top / 10px 1px,
+    linear-gradient(var(--accent), var(--accent)) right top / 1px 10px,
+    linear-gradient(var(--accent), var(--accent)) left bottom / 10px 1px,
+    linear-gradient(var(--accent), var(--accent)) left bottom / 1px 10px,
+    linear-gradient(var(--accent), var(--accent)) right bottom / 10px 1px,
+    linear-gradient(var(--accent), var(--accent)) right bottom / 1px 10px;
+  background-repeat: no-repeat;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-shadow: 0 0 6px rgba(0, 229, 255, 0.35);
+  border-bottom: 1px solid var(--panel-border);
+  background: linear-gradient(90deg, rgba(0, 229, 255, 0.12), transparent);
+  flex: 0 0 auto;
+}
+
+/* status dot: also used standalone in .im-bar / .ide-tabs */
+.dot {
+  width: 8px;
+  height: 8px;
+  background: var(--accent2);
+  box-shadow: 0 0 8px var(--accent2);
+  border-radius: 1px;
+  flex: 0 0 auto;
+  animation: dot-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes dot-pulse {
+  0%, 100% { box-shadow: 0 0 5px var(--accent2); opacity: 1; }
+  50% { box-shadow: 0 0 12px var(--accent2); opacity: 0.72; }
+}
+
+.panel-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- top bar ---- */
+.topbar {
+  position: relative;
+  z-index: 2;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--panel-border);
+  background: linear-gradient(90deg, rgba(0, 229, 255, 0.1), rgba(2, 4, 10, 0.6));
+  box-shadow: 0 2px 14px rgba(0, 229, 255, 0.07);
+  flex: 0 0 auto;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.brand {
+  color: var(--accent);
+  font-weight: bold;
+  letter-spacing: 4px;
+  text-shadow: 0 0 8px var(--accent);
+}
+
+.brand-credit {
+  color: var(--accent2);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 4px var(--accent2);
+}
+
+/* ---- page switcher ---- */
+.page-switcher {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.page-switcher .pg {
+  padding: 4px 10px;
+  line-height: 1.2;
+  border: 1px solid rgba(0, 229, 255, 0.22);
+  background: rgba(0, 229, 255, 0.04);
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 11px;
+  letter-spacing: 1px;
+  transition: all 0.12s;
+}
+
+.page-switcher .pg:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-dim);
+  box-shadow: 0 0 8px var(--accent-dim);
+  text-shadow: 0 0 6px rgba(0, 229, 255, 0.5);
+}
+
+.page-switcher .pg:active {
+  transform: translateY(1px);
+}
+
+.page-switcher .pg.active {
+  color: var(--bg);
+  font-weight: 600;
+  border-color: var(--accent);
+  background: linear-gradient(180deg, #3ef2ff 0%, var(--accent) 55%, #00b4d8 100%);
+  box-shadow: 0 0 12px var(--accent), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.topbar .spacer {
+  flex: 1 1 auto;
+}
+
+.topbar .clock {
+  color: var(--accent2);
+  text-shadow: 0 0 6px var(--accent2);
+  font-variant-numeric: tabular-nums;
+}
+
+.credit-top {
+  color: var(--text-dim);
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+/* ---- generic buttons ---- */
+.btn {
+  border: 1px solid var(--panel-border);
+  background: rgba(0, 229, 255, 0.04);
+  color: var(--accent);
+  padding: 4px 10px;
+  line-height: 1.2;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+
+.btn:hover {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+  box-shadow: 0 0 8px var(--accent-dim);
+  text-shadow: 0 0 6px rgba(0, 229, 255, 0.5);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.btn:disabled:hover {
+  border-color: var(--panel-border);
+  background: rgba(0, 229, 255, 0.04);
+  box-shadow: none;
+  text-shadow: none;
+}
+
+/* ---- scrollbars: visually slim via transparent padding border ---- */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent-dim);
+  border: 3px solid transparent;
+  border-radius: 6px;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}

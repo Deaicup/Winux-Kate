@@ -1,0 +1,62 @@
+[
+  {
+    "name": "boot screen completes",
+    "ok": true,
+    "info": ""
+  },
+  {
+    "name": "goto page 1",
+    "ok": true,
+    "info": "backend page=1"
+  },
+  {
+    "name": "goto page 2",
+    "ok": true,
+    "info": "backend page=2"
+  },
+  {
+    "name": "goto page 3",
+    "ok": true,
+    "info": "backend page=3"
+  },
+  {
+    "name": "goto page 4",
+    "ok": true,
+    "info": "backend page=4"
+  },
+  {
+    "name": "goto page 5",
+    "ok": true,
+    "info": "backend page=5"
+  },
+  {
+    "name": "custom page has instance",
+    "ok": true,
+    "info": "{\"list\":[723302],\"active\":0}"
+  },
+  {
+    "name": "new instance created",
+    "ok": true,
+    "info": "before=1 after=2"
+  },
+  {
+    "name": "select instance #0",
+    "ok": true,
+    "info": "active=0/2"
+  },
+  {
+    "name": "select instance #1",
+    "ok": true,
+    "info": "active=1/2"
+  },
+  {
+    "name": "roundtrip back to page 5",
+    "ok": true,
+    "info": "backend page=5"
+  },
+  {
+    "name": "Ctrl+Tab switches page",
+    "ok": true,
+    "info": "page after Ctrl+Tab=1 (expect 1, wrap from 5)"
+  }
+]
